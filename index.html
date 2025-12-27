@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="public, max-age=3600">
+    <meta name="description" content="个人简历网站">
+    <title>个人简历</title>
+    <style>
+        /* ========== 全局样式重置 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --apple-black: #1d1d1f;
+            --apple-white: #fbfbfd;
+            --apple-gray: #86868b;
+            --apple-blue: #0071e3;
+            --apple-text-dark: #1d1d1f;
+            --apple-text-light: #f5f5f7;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            font-size: 17px;
+            line-height: 1.47059;
+            color: var(--apple-text-dark);
+            background-color: var(--apple-white);
+            overflow-x: hidden;
+        }
+
+        /* ========== 顶部导航栏 ========== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(251, 251, 253, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            height: 44px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1024px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+        }
+
+        .nav-logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--apple-text-dark);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--apple-text-dark);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 400;
+            transition: opacity 0.3s;
+            opacity: 0.88;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+            opacity: 0.8;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .nav-icon:hover {
+            opacity: 1;
+        }
+
+        /* ========== Hero Section - 个人信息主展示区 ========== */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000000 0%, #1d1d1f 100%);
+            color: var(--apple-text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 22px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 980px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-name {
+            font-size: 80px;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-bottom: 12px;
+            line-height: 1.05;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .hero-tagline {
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: 0.011em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.7s forwards;
+        }
+
+        .btn {
+            padding: 12px 22px;
+            border-radius: 980px;
+            font-size: 17px;
+            font-weight: 400;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--apple-blue);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0077ed;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--apple-blue);
+            border-color: var(--apple-blue);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(0, 113, 227, 0.1);
+            transform: scale(1.05);
+        }
+
+        .hero-avatar {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 40%;
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: fadeInScale 1.2s ease-out 0.9s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* ========== 内容区块 - 白色背景 ========== */
+        .content-section {
+            background-color: var(--apple-white);
+            color: var(--apple-text-dark);
+            padding: 100px 22px;
+            text-align: center;
+        }
+
+        .content-section.dark {
+            background-color: #000000;
+            color: var(--apple-text-light);
+        }
+
+        .section-container {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 56px;
+            font-weight: 600;
+            letter-spacing: -0.005em;
+            margin-bottom: 12px;
+            line-height: 1.07143;
+        }
+
+        .section-subtitle {
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: 0.007em;
+            margin-bottom: 40px;
+            opacity: 0.8;
+        }
+
+        .section-content {
+            font-size: 21px;
+            line-height: 1.381;
+            max-width: 680px;
+            margin: 0 auto 60px;
+            opacity: 0.9;
+        }
+
+        /* ========== 信息卡片 ========== */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            text-align: left;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            padding: 40px;
+            transition: all 0.3s;
+        }
+
+        .content-section.dark .info-card {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .info-card-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.003em;
+        }
+
+        .info-card-subtitle {
+            font-size: 17px;
+            opacity: 0.7;
+            margin-bottom: 16px;
+        }
+
+        .info-card-content {
+            font-size: 17px;
+            line-height: 1.47059;
+            opacity: 0.9;
+        }
+
+        /* ========== 联系信息 ========== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 113, 227, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .contact-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--apple-blue);
+        }
+
+        .contact-label {
+            font-size: 14px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-value {
+            font-size: 19px;
+            font-weight: 400;
+        }
+
+        .contact-value a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .contact-value a:hover {
+            opacity: 0.7;
+        }
+
+        /* ========== 页脚 ========== */
+        footer {
+            background-color: var(--apple-white);
+            padding: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-note {
+            padding: 20px 22px;
+            font-size: 12px;
+            color: var(--apple-gray);
+            line-height: 1.5;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-note a {
+            color: var(--apple-blue);
+            text-decoration: none;
+        }
+
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 40px 22px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--apple-black);
+            margin-bottom: 12px;
+            letter-spacing: 0.01em;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            font-size: 12px;
+            color: var(--apple-gray);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: var(--apple-blue);
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 20px 22px;
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+
+        .footer-bottom-text {
+            font-size: 12px;
+            color: var(--apple-gray);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .footer-bottom-text a {
+            color: var(--apple-blue);
+            text-decoration: none;
+        }
+
+        .footer-bottom-text a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-legal {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--apple-gray);
+            padding-top: 10px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-legal-left {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-legal-right {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-legal a {
+            color: var(--apple-gray);
+            text-decoration: none;
+        }
+
+        .footer-legal a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-legal-divider {
+            color: var(--apple-gray);
+            opacity: 0.5;
+        }
+
+        /* ========== 响应式设计 ========== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-name {
+                font-size: 48px;
+            }
+
+            .hero-tagline {
+                font-size: 21px;
+            }
+
+            .hero-avatar {
+                width: 280px;
+                height: 280px;
+            }
+
+            .section-title {
+                font-size: 40px;
+            }
+
+            .section-subtitle {
+                font-size: 21px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px 20px;
+            }
+
+            .footer-legal {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .footer-legal-right {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+        }
+
+        /* ========== 滚动动画 ========== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== 顶部导航栏 ========== -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-logo">【来自一个不会写代码的官网标题】</a>
+            <ul class="nav-links">
+                <li><a href="#about">关于</a></li>
+                <li><a href="#education">教育</a></li>
+                <li><a href="#experience">经历</a></li>
+                <li><a href="#skills">技能</a></li>
+                <li><a href="#contact">联系</a></li>
+            </ul>
+            <div class="nav-icons">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== Hero Section - 个人信息主展示区 ========== -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-name">【NARISU OFFICAL WEB】</h1>
+            <p class="hero-tagline">【我的实力，全靠你想象。加入我们】</p>
+            <div class="hero-actions">
+                <a href="#about" class="btn btn-primary">进一步了解合作详情</a>
+                <a href="#contact" class="btn btn-secondary">联系我</a>
+            </div>
+            <!-- 头像占位符：本地预览替换为相对路径（如 ./照片.jpg），Vercel部署替换为网络链接 -->
+            <img src="./照片.jpg" alt="头像" class="hero-avatar" />
+        </div>
+    </section>
+
+    <!-- ========== 关于我板块 ========== -->
+    <section id="about" class="content-section fade-in">
+        <div class="section-container">
+            <h2 class="section-title">关于我</h2>
+            <p class="section-subtitle">【超专业、瞎创新、让你不明所以！】</p>
+            <p class="section-content">
+                【资深前端工程师，专注静态网页开发。每天致力于赋能企业和用户体验，据雅虎消息，每年有1000万用户来自我的网站】
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== 教育经历板块 ========== -->
+    <section id="education" class="content-section dark fade-in">
+        <div class="section-container">
+            <h2 class="section-title">教育经历</h2>
+            <p class="section-subtitle">学习、成长、突破</p>
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card-title">【悉尼大学】</div>
+                    <div class="info-card-subtitle">【专业：媒体实践】 | 【学历：本科/硕士】</div>
+                    <div class="info-card-content">【2021.09 - 2025.06】</div>
+                    <div class="info-card-content" style="margin-top: 16px;">
+                        【替换为教育经历描述：主修课程包括数据结构、算法设计、软件工程等，GPA 3.8/4.0，获得XX奖学金】
+                    </div>
+                </div>
+                <!-- 可添加更多教育经历卡片 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 工作经历板块 ========== -->
+    <section id="experience" class="content-section fade-in">
+        <div class="section-container">
+            <h2 class="section-title">工作经历</h2>
+            <p class="section-subtitle">实践、积累、成就</p>
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card-title">【前端开发工程师】</div>
+                    <div class="info-card-subtitle">【XX科技有限公司】</div>
+                    <div class="info-card-content">【2022.07 - 至今】</div>
+                    <div class="info-card-content" style="margin-top: 16px;">
+                        【替换为工作描述：负责公司前端产品开发，使用React/Vue等技术栈，参与多个大型项目，提升了用户体验和页面性能】
+                    </div>
+                </div>
+                <!-- 可添加更多工作经历卡片 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 技能专长板块 ========== -->
+    <section id="skills" class="content-section dark fade-in">
+        <div class="section-container">
+            <h2 class="section-title">技能专长</h2>
+            <p class="section-subtitle">专业、全面、深入</p>
+            <p class="section-content">
+                【替换为技能描述：熟练掌握HTML5/CSS3/JavaScript，熟悉React、Vue等前端框架，了解Node.js后端开发，具备良好的代码规范和团队协作能力。擅长UI/UX设计，能够将设计稿完美还原为网页，注重用户体验和性能优化。】
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== 联系我板块 ========== -->
+    <section id="contact" class="content-section fade-in">
+        <div class="section-container">
+            <h2 class="section-title">联系我</h2>
+            <p class="section-subtitle">期待与您的合作</p>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </div>
+                    <div class="contact-label">电话</div>
+                    <div class="contact-value">
+                        <a href="tel:18640912830">【联系电话：18640912830】</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <div class="contact-label">邮箱</div>
+                    <div class="contact-value">
+                        <a href="mailto:example@email.com">【邮箱：example@email.com】</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                    </div>
+                    <div class="contact-label">地址</div>
+                    <div class="contact-value">【地址：辽宁省大连市中山区】</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 页脚 ========== -->
+    <footer>
+        <!-- 页脚说明文字 -->
+        <div class="footer-note">
+            * 更多联系方式：查找附近的办公室，或致电 <a href="tel:18640912830">186-4091-2830</a>。部分服务和功能可能因地区而异。
+        </div>
+
+        <!-- 多列链接区域 -->
+        <div class="footer-links">
+            <div class="footer-column">
+                <h3>产品与服务</h3>
+                <ul>
+                    <li><a href="#about">关于我们</a></li>
+                    <li><a href="#education">教育产品</a></li>
+                    <li><a href="#experience">企业服务</a></li>
+                    <li><a href="#skills">技术方案</a></li>
+                    <li><a href="#contact">联系我们</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>社交媒体</h3>
+                <ul>
+                    <li><a href="#">微信公众号</a></li>
+                    <li><a href="#">微博</a></li>
+                    <li><a href="#">抖音</a></li>
+                    <li><a href="#">小红书</a></li>
+                    <li><a href="#">B站</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>账户中心</h3>
+                <ul>
+                    <li><a href="#">管理账户</a></li>
+                    <li><a href="#">会员中心</a></li>
+                    <li><a href="#">隐私设置</a></li>
+                    <li><a href="#">安全中心</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>内容平台</h3>
+                <ul>
+                    <li><a href="#">博客文章</a></li>
+                    <li><a href="#">视频内容</a></li>
+                    <li><a href="#">播客</a></li>
+                    <li><a href="#">社区论坛</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>商务合作</h3>
+                <ul>
+                    <li><a href="#">合作伙伴</a></li>
+                    <li><a href="#">商务咨询</a></li>
+                    <li><a href="#">媒体合作</a></li>
+                    <li><a href="#">广告投放</a></li>
+                    <li><a href="#">招聘信息</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>企业价值</h3>
+                <ul>
+                    <li><a href="#">社会责任</a></li>
+                    <li><a href="#">可持续发展</a></li>
+                    <li><a href="#">用户隐私</a></li>
+                    <li><a href="#">内容安全</a></li>
+                    <li><a href="#">透明度报告</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>关于公司</h3>
+                <ul>
+                    <li><a href="#">新闻动态</a></li>
+                    <li><a href="#">领导团队</a></li>
+                    <li><a href="#">企业文化</a></li>
+                    <li><a href="#">投资者关系</a></li>
+                    <li><a href="#">联系我们</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 底部法律信息 -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-text">
+                更多联系方式：<a href="#contact">查找附近的办公室</a>及更多门店，或者致电 <a href="tel:18640912830">186-4091-2830</a>。
+            </div>
+            
+            <div class="footer-legal">
+                <div class="footer-legal-left">
+                    <span>Copyright © 2024 【NARISU OFFICAL WEB】. 保留所有权利。</span>
+                </div>
+                <div class="footer-legal-right">
+                    <a href="#">隐私政策</a>
+                    <span class="footer-legal-divider">|</span>
+                    <a href="#">使用条款</a>
+                    <span class="footer-legal-divider">|</span>
+                    <a href="#">服务协议</a>
+                    <span class="footer-legal-divider">|</span>
+                    <a href="#">法律信息</a>
+                    <span class="footer-legal-divider">|</span>
+                    <a href="#">网站地图</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========== 导航栏滚动效果 ==========
+        let lastScroll = 0;
+        const nav = document.querySelector('nav');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll <= 0) {
+                nav.style.background = 'rgba(251, 251, 253, 0.8)';
+                nav.style.borderBottom = '1px solid rgba(0, 0, 0, 0.1)';
+            } else {
+                nav.style.background = 'rgba(251, 251, 253, 0.95)';
+                nav.style.borderBottom = '1px solid rgba(0, 0, 0, 0.15)';
+            }
+            lastScroll = currentScroll;
+        }, { passive: true });
+
+        // ========== 平滑滚动 ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 44;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ========== 滚动动画 ==========
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ========== 页面加载动画 ==========
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease-out';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+
+    <!--
+    ========== 本地预览调试指引 ==========
+    
+    1. 图片路径替换：
+       - 将头像图片放在与index.html同级的目录中
+       - 确保图片文件名与代码中的路径一致（如 照片.jpg）
+       - 或修改代码中的图片路径为你的实际图片路径
+       - 确保路径使用相对路径（如 ./照片.jpg）
+    
+    2. 浏览器控制台报错排查：
+       - 按F12打开开发者工具，查看Console标签
+       - 如果出现404错误，检查图片路径是否正确
+       - 如果出现跨域错误，确保图片在同一目录或使用相对路径
+    
+    3. 响应式适配验证：
+       - 在浏览器中按F12打开开发者工具
+       - 点击设备工具栏图标（或按Cmd+Shift+M）
+       - 选择不同设备尺寸测试布局效果
+    
+    4. 内容替换：
+       - 搜索代码中的【替换为XXX】占位符
+       - 将占位符替换为你的真实信息
+       - 保存文件后刷新浏览器即可看到更新
+    
+    ========== Vercel部署步骤 ==========
+    
+    1. 注册账号：
+       - 访问 https://vercel.com
+       - 使用GitHub/GitLab/Bitbucket账号登录（推荐）或邮箱注册
+    
+    2. 新建Project：
+       - 登录后点击 "Add New" → "Project"
+       - 如果使用Git仓库，连接你的GitHub/GitLab仓库
+       - 如果是直接上传，选择 "Upload" 选项
+    
+    3. 上传文件：
+       - 方法一（推荐）：将index.html推送到GitHub仓库，Vercel会自动检测
+       - 方法二：在Vercel Dashboard选择 "Upload" 直接上传index.html文件
+       - 注意：如果使用网络图片链接，需要先上传图片到图床（如GitHub、Vercel Assets等）
+    
+    4. 图片资源处理：
+       - 将图片上传到GitHub仓库（推荐）
+       - 或使用图床服务（如imgur、sm.ms）获取图片链接
+       - 在index.html中将图片路径替换为网络链接
+       - 例如：<img src="https://your-username.github.io/照片.jpg" alt="头像" />
+    
+    5. 部署完成：
+       - Vercel会自动部署并生成一个URL（如 your-project.vercel.app）
+       - 点击 "Visit" 按钮即可访问你的简历网站
+    
+    6. 绑定域名（可选）：
+       - 在项目设置中找到 "Domains" 选项
+       - 添加你的自定义域名
+       - 按照提示配置DNS记录
+    
+    7. 后续更新：
+       - 如果使用Git仓库，每次push代码后Vercel会自动重新部署
+       - 如果直接上传，需要手动重新上传更新后的文件
+    
+    ========== 注意事项 ==========
+    
+    - 所有占位符都需要替换为真实内容
+    - 图片路径需要根据实际情况调整（本地相对路径 vs 网络链接）
+    - 建议使用现代浏览器（Chrome/Safari/Edge/Firefox）预览
+    - 部署前建议先在本地测试所有功能是否正常
+    -->
+</body>
+</html>
